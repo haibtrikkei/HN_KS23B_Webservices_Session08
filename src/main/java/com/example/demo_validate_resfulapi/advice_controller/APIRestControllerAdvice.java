@@ -5,6 +5,7 @@ import com.example.demo_validate_resfulapi.model.dto.resonse.DataResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -22,8 +23,8 @@ public class APIRestControllerAdvice {
 //            errors.put(error.getField(),error.getDefaultMessage());
 //        });
         for(int i=0;i<ex.getAllErrors().size();i++){
-            FieldError fieldError = ex.getFieldErrors().get(i);
-            errors.put("error - "+i, fieldError.getDefaultMessage());
+            ObjectError objectError = ex.getAllErrors().get(i);
+            errors.put("error - "+i, objectError.getDefaultMessage());
         }
         return new ResponseEntity<>(new DataErrorResponse<>("errors",errors, HttpStatus.BAD_REQUEST), HttpStatus.BAD_REQUEST);
     }
